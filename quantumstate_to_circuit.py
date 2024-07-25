@@ -249,8 +249,9 @@ def convert_mps_to_circuit(state_type, lengths):
     mps_times = []
     qiskit_gates = []
     mps_gates = []
+    entropies = []
     for length in lengths:
-        print(f"Genome Length: {length}")
+        # print(f"Genome Length: {length}")
         if state_type == "genome":
             genome = generate_genome(length)
             statevector, L = encode_genome(genome)
@@ -287,11 +288,12 @@ def convert_mps_to_circuit(state_type, lengths):
         target = copy.copy(statevector)
         psi_0, mps_edges = create_mps(statevector, d, L, 0)
             
-        # for k in range(len(mps_edges)):
-        #     A = tn.contract(mps_edges[k])
+        for k in range(len(mps_edges)):
+            A = tn.contract(mps_edges[k])
 
-        # U, S, Vh = np.linalg.svd(A.tensor)
-        # entropy = -np.sum(S**2 * np.log(S**2))
+        U, S, Vh = np.linalg.svd(A.tensor)
+        entropy = -np.sum(S**2 * np.log(S**2))
+        entropies.append(entropy)
         # print(f"Number of Qubits: {L}")
         # print(f"Entropy of state: {entropy}")
 
@@ -349,24 +351,53 @@ def convert_mps_to_circuit(state_type, lengths):
         # qis_trans_circ.draw('mpl')
         # plt.title("Qiskit")
 
-        # plt.figure()
-        # plt.bar(range(len(zero_state)), np.abs(zero_state)**2, alpha=0.5)
-        # plt.bar(range(len(target)), np.abs(target)**2, alpha=0.5)
+        plt.figure()
+        plt.bar(range(len(zero_state)), np.abs(zero_state)**2, alpha=0.5)
+        plt.bar(range(len(target)), np.abs(target)**2, alpha=0.5)
 
         # produced_circuit.draw('mpl')
         trans_circ = transpile(circuit, basis_gates=["x", "sx", "rz", "cx"], optimization_level=3)
         # trans_circ.draw('mpl')
         # plt.title("MPS")
-        # plt.show()
+        plt.show()
 
         # print(f"Number of gates qiskit: {len(qis_trans_circ)}")
         qiskit_gates.append(len(qis_trans_circ))
         # print(f"Number of gates MPS: {len(trans_circ)}")
         mps_gates.append(len(trans_circ))
     
-    print(mps_gates)
-    import pdb
-    pdb.set_trace()
+    # print(mps_gates)
+
+    plt.figure()
+    plt.title("Correlation")
+    plt.plot(entropies, label="State Entropy", alpha=0.5)
+    plt.plot(mps_gates, label="Required Gates", alpha=0.5)
+    if state_type == "genome":
+        plt.xlabel("Genome Length")
+    else:
+        plt.xlabel("Number of Qubits")
+    plt.ylabel("Entropy/Gates")
+    plt.legend()
+    plt.savefig(f"results/{state_type}_entropy_gates_correlation.pdf")
+
+    plt.figure()
+    plt.plot(mps_gates, entropies, "o", alpha=0.5)
+    plt.title("Comparison")
+    plt.xlabel("Required Gates")
+    plt.ylabel("State Entropy")
+    plt.savefig(f"results/{state_type}_entropy_gates_comparison.pdf")
+
+    plt.figure()
+    plt.title("Correlation")
+    plt.plot(np.array(entropies)/np.max(entropies), label="State Entropy", alpha=0.5)
+    plt.plot(np.array(mps_gates)/np.max(mps_gates), label="Required Gates", alpha=0.5)
+    if state_type == "genome":
+        plt.xlabel("Genome Length")
+    else:
+        plt.xlabel("Number of Qubits")
+    plt.ylabel("Normalised Entropy/Gates")
+    plt.legend()
+    plt.savefig(f"results/{state_type}_normalised_entropy_gates_correlation.pdf")
 
     # plt.figure()
     # plt.title("Gates")
@@ -394,4 +425,4 @@ if __name__ == "__main__":
 
     # analyse_phi_mps()
     # analyse_genome_entropy()
-    convert_mps_to_circuit("genome", range(700, 701))
+    convert_mps_to_circuit("random", np.random.randint(2, high=9, size=100))
