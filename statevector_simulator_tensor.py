@@ -5,6 +5,7 @@ This module is made to improve the speed of statevector simulations for quantum
 circuits in python using tensors.
 
 Author: Floyd Creevey
+Email: fc309@sanger.ac.uk
 """
 
 import numpy as np
@@ -98,7 +99,7 @@ def controlled_rotation_z(theta):
 class Reg:
     def __init__(self, n,):
         self.n = n
-        self.psi = np.zeros((2,) * n, dtype=complex)
+        self.psi = np.zeros((2,) * n, dtype=np.complex128)
         self.psi[(0,) * n] = 1
 
     def h(self, i):
@@ -143,7 +144,7 @@ class Reg:
         )
         self.psi = np.moveaxis(self.psi, (0, 1), (control, target))
 
-    def unitary(self, unitary, qubits):# control, target=None):
+    def unitary(self, unitary, qubits):
         if len(qubits) == 2:
             self.psi = np.tensordot(
                 unitary.reshape(2, 2, 2, 2), self.psi, ((2, 3), (qubits[0], qubits[1]))
