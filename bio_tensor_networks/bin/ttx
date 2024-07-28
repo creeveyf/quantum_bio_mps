@@ -1,4 +1,4 @@
-#!/Users/fc309/Documents/tensor_networks/bio_tensor_networks/bin/python3.11
+#!/Users/floydcreevey/Documents/quantum_bio_project/quantum_bio_mps/bio_tensor_networks/bin/python3.12
 # -*- coding: utf-8 -*-
 import re
 import sys

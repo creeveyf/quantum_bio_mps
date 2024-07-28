@@ -126,6 +126,7 @@ celerybeat.pid
 .venv
 env/
 venv/
+bio_tensor_networks/
 ENV/
 env.bak/
 venv.bak/

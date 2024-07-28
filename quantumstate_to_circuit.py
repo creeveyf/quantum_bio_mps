@@ -11,9 +11,9 @@ TODO:
     generation such that they can be directly multiplied into the existing MPS
     nodes, increasing efficiency by removing the need to multiply
     Operator(circuit.inverse()).data @ statevector and also removing the need
-    for qiskit from the codebase entierly.
+    for qiskit from the codebase entirely.
 
-    2) Implement sweep algorithm (DMRG style) to improve effciency of truncation
+    2) Implement sweep algorithm (DMRG style) to improve efficiency of truncation
     to bond dimension 2 at each layer of circuit generation in
     convert_mps_to_circuit().
 
@@ -108,7 +108,7 @@ def create_mps(
     """
 
     if bond_dim == 0:
-        bond_dim = 10**16
+        bond_dim = 10e16
 
     a_matrices = []
     ranks = []
@@ -280,7 +280,7 @@ def analyse_genome_entropy(physical_dim: int, lengths: np.typing.ArrayLike) -> N
             )
 
             _, s_temp, _ = np.linalg.svd(mps_tensor.tensor)
-            s_temp = s_temp[s_temp != 0]
+            s_temp = s_temp[s_temp > 10e-16]
             entropy = -np.sum(s_temp**2 * np.log(s_temp**2))
 
             if bond_dim_diff > 0:
@@ -296,7 +296,7 @@ def analyse_genome_entropy(physical_dim: int, lengths: np.typing.ArrayLike) -> N
         entropies.append(entropy)
         num_nodes_for_plot.append(num_nodes)
         max_bond_dim.append(num_nodes**physical_dim)
-    print(f"Time take: {time.time() - t1}")
+    print(f"Time taken: {time.time() - t1}")
 
     plt.plot(lengths, bond_dims, "o", label="Required Bond Dimension")
     plt.plot(
@@ -395,7 +395,7 @@ def convert_mps_to_circuit(
             mps_tensor = tn.contract(edge)
 
         _, s_temp, _ = np.linalg.svd(mps_tensor.tensor)
-        s_temp = s_temp[s_temp != 0]
+        s_temp = s_temp[s_temp > 10e-16]
         entropy = -np.sum(s_temp**2 * np.log(s_temp**2))
         entropies.append(entropy)
 
@@ -533,9 +533,10 @@ def convert_mps_to_circuit(
 if __name__ == "__main__":
 
     # analyse_required_bond_dim("genome", 15, 2)
-    analyse_genome_entropy(2, np.random.randint(1, 1001, 100))
+    # analyse_genome_entropy(2, np.random.randint(1, 1001, 100))
     # for target_state_type in ["genome", "phi", "wstate", "gaussian", "ghz", "random"]:
-    #     if target_state_type in ("phi", "genome"):
-    #         convert_mps_to_circuit(target_state_type, range(2, 20), 2, False)
-    #     else:
-    #         convert_mps_to_circuit(target_state_type, range(2, 11), 2, False)
+    for target_state_type in ["wstate"]:
+        if target_state_type in ("phi", "genome"):
+            convert_mps_to_circuit(target_state_type, range(2, 20), 2, False)
+        else:
+            convert_mps_to_circuit(target_state_type, range(2, 11), 2, False)
