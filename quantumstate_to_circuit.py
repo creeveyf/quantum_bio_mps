@@ -435,6 +435,18 @@ def convert_mps_to_circuit(
             statevector = Operator(circuit.inverse()).data @ statevector
 
             fidelity = np.abs(np.dot(zero_state.conj(), statevector)) ** 2
+            trial = copy.copy(zero_state)
+            for unitary in layer_unitaries[::-1]:
+                trial @= unitary.T
+
+            plt.figure()
+            plt.bar(range(len(trial)), np.abs(trial)**2, label=r"$|\psi_k\rangle$", alpha=0.5)
+            plt.bar(range(len(target)), np.abs(target)**2, label=r"$|\psi_{\rm{target}}\rangle$", alpha=0.5)
+            plt.ylabel("Probability")
+            plt.legend()
+
+            produced_circuit.inverse().draw('mpl')
+            plt.show()
 
         gates = 0
         for unitary in layer_unitaries[::-1]:
@@ -533,9 +545,9 @@ def convert_mps_to_circuit(
 if __name__ == "__main__":
 
     # analyse_required_bond_dim("genome", 15, 2)
-    analyse_genome_entropy(2, np.random.randint(1, 1001, 100))
-    # for target_state_type in ["genome", "phi", "wstate", "gaussian", "ghz", "random"]:
-    #     if target_state_type in ("phi", "genome"):
-    #         convert_mps_to_circuit(target_state_type, range(2, 20), 2, False)
-    #     else:
-    #         convert_mps_to_circuit(target_state_type, range(2, 11), 2, False)
+    # analyse_genome_entropy(2, np.random.randint(1, 1001, 100))
+    for target_state_type in ["genome", "phi", "wstate", "gaussian", "ghz", "random"]:
+        if target_state_type in ("phi", "genome"):
+            convert_mps_to_circuit(target_state_type, range(2, 20), 2, False)
+        else:
+            convert_mps_to_circuit(target_state_type, range(2, 11), 2, False)
