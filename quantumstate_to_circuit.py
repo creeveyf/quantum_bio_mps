@@ -361,7 +361,7 @@ def convert_mps_to_circuit(
         plot_each_iter (bool): Show the plot of the circuit and target vector
         each iteration in main loop, defaults to False.
         fidelity_req (float): fidelity of MPS representation required to original
-        vector, defaults to 1e-3
+        vector, defaults to 1e-6
     """
 
     qiskit_times = []
