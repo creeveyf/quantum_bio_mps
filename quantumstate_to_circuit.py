@@ -79,10 +79,24 @@ def encode_genome(genome: np.typing.ArrayLike) -> np.ndarray:
 
     encoded_genome = np.zeros(int(2**num_qubits), dtype=np.complex128)
     for idx, base in enumerate(genome):
-        idx_mod = int(bin(idx)[2:].zfill(pos_qubits) + base_dict[base], 2)
+        idx_mod = int(bin(idx)[2:].zfill(pos_qubits) + BASE_MAP[base], 2)
         encoded_genome[idx_mod] = 1.0
 
     return encoded_genome / np.sqrt(np.sum(encoded_genome)), num_qubits
+
+
+def decode_state(statevector: np.typing.ArrayLike, num_qubits: int, tol = 1e-3) -> str:
+    decoded = ""
+    for idx, element in enumerate(statevector):
+        if np.abs(element) > tol:
+            # Extract the position revister and base register
+            pos = bin(idx)[2:]
+            base = pos[-2:].zfill(2)
+            # Pad with zeroes if the position is too short
+            if len(pos) < 4:
+                pos = pos.zfill(4)
+            decoded += REV_BASE_MAP[str(base)]
+    return decoded
 
 
 def create_mps(
