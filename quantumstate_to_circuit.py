@@ -86,6 +86,18 @@ def encode_genome(genome: np.typing.ArrayLike) -> np.ndarray:
 
 
 def decode_state(statevector: np.typing.ArrayLike, num_qubits: int, tol = 1e-3) -> str:
+    """
+    Decodes state vector into a genome, the tolerance parameter is heuristic
+    and can be refined.
+
+    Args:
+        statevector (np.typing.ArrayLike): normalised quantum state vector to decode.
+        num_qubits (int): number of qubits used in the encoding.
+        tol (float): tolerance of decoding, by default set to 1e-3
+
+    Returns:
+        decoded (str): genome as reconstructed from inverse of encode_genome
+    """
     decoded = ""
     for idx, element in enumerate(statevector):
         if np.abs(element) > tol:
