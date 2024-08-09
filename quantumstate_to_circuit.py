@@ -38,7 +38,7 @@ from statevector_simulator_tensor import Reg
 
 
 BASE_MAP = {"A" : "00", "T" : "01", "G" : "10", "C" : "11"}
-REV_BASE_MAP = dict((reversed(item) for item in base_dict.items()))
+REV_BASE_MAP = dict((reversed(item) for item in BASE_MAP.items()))
 
 def generate_genome(length: int) -> np.ndarray:
     """
@@ -346,7 +346,7 @@ def analyse_genome_entropy(physical_dim: int, lengths: np.typing.ArrayLike) -> N
 
 
 def convert_mps_to_circuit(
-    state_type: str, lengths: list[int], physical_dim: int, display_results: bool, plot_each_iter: bool=False, fidelityi_req: float=1e-1) -> None:
+    state_type: str, lengths: list[int], physical_dim: int, display_results: bool, plot_each_iter: bool=False, fidelity_req: float=1e-6) -> None:
     """
     Script to convert a given arbitrary normalised quantum state into an MPS
     representation, and then use that MPS representation to generate a gate
@@ -361,7 +361,7 @@ def convert_mps_to_circuit(
         plot_each_iter (bool): Show the plot of the circuit and target vector
         each iteration in main loop, defaults to False.
         fidelity_req (float): fidelity of MPS representation required to original
-        vector, defaults to 1e-1
+        vector, defaults to 1e-3
     """
 
     qiskit_times = []
@@ -436,11 +436,17 @@ def convert_mps_to_circuit(
         layer_unitaries = []
         validation_list = []
         REQ_SIZE = 15
+        iterations = 0 
         while fidelity < 1 - fidelity_req:
             # If the last REQ_SIZE sequences decoded have been identical, break
+            # Idea: break when decoded genome is stable, rather than waiting
+            # on fidelity
             # We can tune this parameter for efficiency
             if len(validation_list) == REQ_SIZE:
                 break
+
+            iterations += 1
+
             unitaries = []
             mps_nodes, mps_edges = create_mps(statevector, physical_dim, num_nodes, 2)
 
@@ -471,6 +477,15 @@ def convert_mps_to_circuit(
             for unitary in layer_unitaries[::-1]:
                 trial @= unitary.T
 
+            decoded_seq = decode_state(trial, num_nodes)
+            if len(validation_list) == 0:
+                validation_list.append(decoded_seq)
+
+            if decoded_seq != validation_list[-1]:
+                validation_list.clear()
+
+            validation_list.append(decoded_seq)
+
             if plot_each_iter:            
                 plt.figure()
                 plt.bar(range(len(trial)), np.abs(trial)**2, label=r"$|\psi_k\rangle$", alpha=0.5)
@@ -486,6 +501,7 @@ def convert_mps_to_circuit(
             zero_state @= unitary.T
             gates += 1
 
+        print(f"Time to decode: {time.time() - t1}s")
         mps_times.append(time.time() - t1)
 
         t1 = time.time()
@@ -574,14 +590,17 @@ def convert_mps_to_circuit(
 
     plt.close("all")
 
-
 if __name__ == "__main__":
 
     # analyse_required_bond_dim("genome", 15, 2)
     # analyse_genome_entropy(2, np.random.randint(1, 1001, 100))
     # for target_state_type in ["genome", "phi", "wstate", "gaussian", "ghz", "random"]:
-    for target_state_type in ["genome"]:
-        if target_state_type in ("phi", "genome"):
-            convert_mps_to_circuit(target_state_type, range(5, 20), 2, False)
-        else:
-            convert_mps_to_circuit(target_state_type, range(2, 11), 2, False)
+    #for target_state_type in ["genome"]:
+    #    if target_state_type in ("phi", "genome"):
+    #        convert_mps_to_circuit(target_state_type, range(5, 20), 2, False)
+    #    else:
+    #        convert_mps_to_circuit(target_state_type, range(2, 11), 2, False)
+
+
+    # Scaling test for phi-x-174 to 1e-6 fidelity
+    convert_mps_to_circuit("phi", range(150, 151), 2, False)
