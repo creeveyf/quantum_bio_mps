@@ -78,15 +78,9 @@ def encode_genome(genome: np.typing.ArrayLike) -> np.ndarray:
     num_qubits = pos_qubits + data_qubits
 
     encoded_genome = np.zeros(int(2**num_qubits), dtype=np.complex128)
-    for i, base in enumerate(genome):
-        if base == "A":
-            encoded_genome[int(bin(i)[2:].zfill(pos_qubits) + "00", 2)] = 1.0
-        if base == "T":
-            encoded_genome[int(bin(i)[2:].zfill(pos_qubits) + "01", 2)] = 1.0
-        if base == "G":
-            encoded_genome[int(bin(i)[2:].zfill(pos_qubits) + "10", 2)] = 1.0
-        if base == "C":
-            encoded_genome[int(bin(i)[2:].zfill(pos_qubits) + "11", 2)] = 1.0
+    for idx, base in enumerate(genome):
+        idx_mod = int(bin(idx)[2:].zfill(pos_qubits) + base_dict[base], 2)
+        encoded_genome[idx_mod] = 1.0
 
     return encoded_genome / np.sqrt(np.sum(encoded_genome)), num_qubits
 
