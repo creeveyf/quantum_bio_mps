@@ -346,8 +346,7 @@ def analyse_genome_entropy(physical_dim: int, lengths: np.typing.ArrayLike) -> N
 
 
 def convert_mps_to_circuit(
-    state_type: str, lengths: list[int], physical_dim: int, display_results: bool
-) -> None:
+    state_type: str, lengths: list[int], physical_dim: int, display_results: bool, plot_each_iter: bool=False) -> None:
     """
     Script to convert a given arbitrary normalised quantum state into an MPS
     representation, and then use that MPS representation to generate a gate
@@ -359,6 +358,8 @@ def convert_mps_to_circuit(
         lengths (list[int]): List of number of MPS nodes to be generated for
         comparison.
         physical_dim (int): Physical dimension of the generated quantum states.
+        plot_each_iter (bool): Show the plot of the circuit and target vector
+        each iteration in main loop, defaults to False.
     """
 
     qiskit_times = []
