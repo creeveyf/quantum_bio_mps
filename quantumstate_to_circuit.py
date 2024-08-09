@@ -346,7 +346,7 @@ def analyse_genome_entropy(physical_dim: int, lengths: np.typing.ArrayLike) -> N
 
 
 def convert_mps_to_circuit(
-    state_type: str, lengths: list[int], physical_dim: int, display_results: bool, plot_each_iter: bool=False, fidelity: float=1e-1) -> None:
+    state_type: str, lengths: list[int], physical_dim: int, display_results: bool, plot_each_iter: bool=False, fidelityi_req: float=1e-1) -> None:
     """
     Script to convert a given arbitrary normalised quantum state into an MPS
     representation, and then use that MPS representation to generate a gate
@@ -360,7 +360,7 @@ def convert_mps_to_circuit(
         physical_dim (int): Physical dimension of the generated quantum states.
         plot_each_iter (bool): Show the plot of the circuit and target vector
         each iteration in main loop, defaults to False.
-        fidelity (float): fidelity of MPS representation required to original
+        fidelity_req (float): fidelity of MPS representation required to original
         vector, defaults to 1e-1
     """
 
@@ -434,7 +434,13 @@ def convert_mps_to_circuit(
 
         fidelity = 0
         layer_unitaries = []
-        while fidelity < 0.99:
+        validation_list = []
+        REQ_SIZE = 15
+        while fidelity < 1 - fidelity_req:
+            # If the last REQ_SIZE sequences decoded have been identical, break
+            # We can tune this parameter for efficiency
+            if len(validation_list) == REQ_SIZE:
+                break
             unitaries = []
             mps_nodes, mps_edges = create_mps(statevector, physical_dim, num_nodes, 2)
 
@@ -464,15 +470,16 @@ def convert_mps_to_circuit(
             trial = copy.copy(zero_state)
             for unitary in layer_unitaries[::-1]:
                 trial @= unitary.T
-            
-            plt.figure()
-            plt.bar(range(len(trial)), np.abs(trial)**2, label=r"$|\psi_k\rangle$", alpha=0.5)
-            plt.bar(range(len(target)), np.abs(target)**2, label=r"$|\psi_{\rm{target}}\rangle$", alpha=0.5)
-            plt.ylabel("Probability")
-            plt.legend()
 
-            produced_circuit.draw('mpl')
-            plt.show()
+            if plot_each_iter:            
+                plt.figure()
+                plt.bar(range(len(trial)), np.abs(trial)**2, label=r"$|\psi_k\rangle$", alpha=0.5)
+                plt.bar(range(len(target)), np.abs(target)**2, label=r"$|\psi_{\rm{target}}\rangle$", alpha=0.5)
+                plt.ylabel("Probability")
+                plt.legend()
+
+                produced_circuit.draw('mpl')
+                plt.show()
 
         gates = 0
         for unitary in layer_unitaries[::-1]:
