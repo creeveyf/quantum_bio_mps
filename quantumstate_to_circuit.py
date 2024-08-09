@@ -37,6 +37,9 @@ from scipy.stats import norm
 from statevector_simulator_tensor import Reg
 
 
+BASE_MAP = {"A" : "00", "T" : "01", "G" : "10", "C" : "11"}
+REV_BASE_MAP = dict((reversed(item) for item in base_dict.items()))
+
 def generate_genome(length: int) -> np.ndarray:
     """
     Generates a genome of length 'length', using the nucleobase set of
