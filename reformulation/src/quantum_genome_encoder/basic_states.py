@@ -1,5 +1,5 @@
 """
-utils.py
+basic_states.py
 ---
 This code contains utility functions for the quantum encoding library.
 
