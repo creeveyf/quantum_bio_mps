@@ -54,9 +54,48 @@ def generate_ghz_state(num_qubits):
     statevector : np.typing.ArrayLike
         Corresponding state vector to GHZ state.
     """
-    num_qubits = length
     statevector = np.zeros(2**num_qubits, dtype=np.complex128)
     statevector[0] = 1 / np.sqrt(2)
     statevector[-1] = 1 / np.sqrt(2)
 
     return statevector
+
+def generate_gaussian_state(num_qubits):
+    """
+    Generates a Gaussian state for a given number of qubits.
+
+    Parameters:
+    -----------
+    num_qubits : int
+        Qubits for required Gaussian state.
+
+    Returns:
+    --------
+    statevector : np.typing.ArrayLike
+        Corresponding state vector to Gaussian state.
+    """
+    mu, sigma = (2**num_qubits) / 2, (2**num_qubits) / 4
+
+    gaus = np.array(
+        [np.sqrt(norm(mu, sigma).pdf(i)) for i in range(2**num_qubits)]
+    )
+    statevector = gaus / np.linalg.norm(gaus)
+
+    return statevector
+
+def generate_random_state(num_qubits):
+    """
+    Generates a random state for a given number of qubits (currently wrapping
+    around QisKit).
+
+    Parameters:
+    -----------
+    num_qubits : int
+        Qubits for required Gaussian state.
+
+    Returns:
+    --------
+    statevector : np.typing.ArrayLike
+        Corresponding random state vector.
+    """
+    return random_statevector(2**num_qubits).data
