@@ -9,7 +9,9 @@ quantum state which could be used for benchmarking purposes.
 Author: Floyd Creevey
 Email: fc309@sanger.ac.uk
 """
-import .encoder
+import numpy as np
+from qiskit.quantum_info import random_statevector
+from scipy.stats import norm
 
 def generate_w_state(num_qubits):
     """
