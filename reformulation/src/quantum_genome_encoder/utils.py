@@ -38,3 +38,25 @@ def generate_w_state(num_qubits):
     statevector /= np.sqrt(sum(statevector))
 
     return statevector
+
+def generate_ghz_state(num_qubits):
+    """
+    Generates an entangled quantum GHZ (Greenberger-Horne-Zellinger)
+    state for a given number ofqubits.
+
+    Parameters:
+    -----------
+    num_qubits : int
+        Qubits for required GHZ state.
+
+    Returns:
+    --------
+    statevector : np.typing.ArrayLike
+        Corresponding state vector to GHZ state.
+    """
+    num_qubits = length
+    statevector = np.zeros(2**num_qubits, dtype=np.complex128)
+    statevector[0] = 1 / np.sqrt(2)
+    statevector[-1] = 1 / np.sqrt(2)
+
+    return statevector
