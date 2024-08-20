@@ -74,6 +74,11 @@ def read_genome(file, length):
         Location of data file where genome is stored.
     length : int
         Length of genome to be read.
+
+    Returns:
+    --------
+    genome : np.ndarray
+        An array of nucleobases forming the genome
     """
 
     with open(file, "r") as filehandler:
@@ -240,6 +245,11 @@ def analyse_required_bond_dim(statevector, num_nodes, physical_dim, make_plots=F
         Plot reconstruction error against bond dimension.
     tol : float
         Default tolerance on reconstruction err, TOL_DEFAULT_ERR by default.
+
+    Returns:
+    -------
+    bond_dim : int
+        The required bond dimension for the given tolerance.
     """
 
     bond_dim = 1
