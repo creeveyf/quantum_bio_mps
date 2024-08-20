@@ -4,4 +4,4 @@ genomic data as tensor networks and quantum
 circuits.
 """
 from .encoding import *
-from .ebasic_states import *
+from .basic_states import *
