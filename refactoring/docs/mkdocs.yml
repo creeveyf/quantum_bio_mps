@@ -1,0 +1,37 @@
+site_name: Quantum Genome Encoder
+
+copyright: Copyright &copy; <script>document.write(new Date().getFullYear())</script> Genome Research Ltd.
+
+theme:
+  name: material
+  highlightjs: true
+  hljs_languages:
+    - yaml
+    - rust
+  logo: img/favicon.png
+  favicon: img/favicon.png
+  palette:
+    primary: blue
+  features:
+    - content.code.copy
+    - navigation.indexes
+    - navigation.expand
+    - search.suggest
+    - search.highlight
+
+markdown_extensions:
+  - admonition
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.arithmatex:
+      generic: true
+
+plugins:
+  - search
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
