@@ -44,3 +44,22 @@ mkdocs build
 
 which will create a directory called `public` with the build files
 that may then be viewed in browser.
+
+### TEMPROARY NOTE
+
+The documentation is also provided pre-built temporarily, the build
+files are stored in
+
+```
+docs/site
+```
+
+This can be viewed in browser by running e.g.
+
+```
+python3 -m http.server 8000
+```
+
+Which will host the page at [localhost:8000](localhost:8000).
+
+We will remove the pre-built docs in future, and host them elsewhere.
