@@ -10,13 +10,15 @@
       
       
       
+        <link rel="next" href="encoding_ref/">
+      
       
       <link rel="icon" href="img/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.35">
     
     
       
-        <title>Overview - Quantum Genome Encoder</title>
+        <title>Quantum Genome Encoder</title>
       
     
     
@@ -41,6 +43,8 @@
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
+    
+      <link rel="stylesheet" href="assets/_mkdocstrings.css">
     
     <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -299,6 +303,121 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="encoding_ref/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Encoding
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mps_ref/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MPS construction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="states_ref/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basic states
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -421,8 +540,8 @@ to the following table:</p>
 <tr>
 <th>A</th>
 <th>T</th>
-<th>C</th>
 <th>G</th>
+<th>C</th>
 </tr>
 </thead>
 <tbody>
@@ -553,18 +672,15 @@ as illustrated by the gate count comparisons below:</p>
 
 <p>The greater economy in gates is illustrated clearly, the discrete jumps in gate count
 indicate an increase in the number of qubits required to encode the genome.</p>
-<p>Even without optimisation, the economy of this approach makes clear that the MPS
-approach can provide a more favourable encoding than pure QisKit. We relegate
-the discussion of the optimisation to future documentation for now.</p>
+<p>Even without optimisation, the economy of this approach makes clear that MPS can
+provide a more favourable encoding than pure QisKit. We relegate the discussion
+of the optimisation to future documentation for now.</p>
 
 
 
 
 
 
-
-  
-  
 
 
 

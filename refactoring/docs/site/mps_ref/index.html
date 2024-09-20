@@ -1,0 +1,1350 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../encoding_ref/">
+      
+      
+        <link rel="next" href="../states_ref/">
+      
+      
+      <link rel="icon" href="../img/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.35">
+    
+    
+      
+        <title>MPS construction - Quantum Genome Encoder</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.35f28582.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-reference-mps-construction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Quantum Genome Encoder" class="md-header__button md-logo" aria-label="Quantum Genome Encoder" data-md-component="logo">
+      
+  <img src="../img/favicon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Quantum Genome Encoder
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              MPS construction
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Quantum Genome Encoder" class="md-nav__button md-logo" aria-label="Quantum Genome Encoder" data-md-component="logo">
+      
+  <img src="../img/favicon.png" alt="logo">
+
+    </a>
+    Quantum Genome Encoder
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../encoding_ref/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Encoding
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    MPS construction
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    MPS construction
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#mps-construction-analysis-and-conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      MPS construction, analysis, and conversion
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quantum_genome_encoder.create_mps" class="md-nav__link">
+    <span class="md-ellipsis">
+      create_mps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="create_mps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quantum_genome_encoder.create_mps--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantum_genome_encoder.create_mps--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quantum_genome_encoder.analyse_required_bond_dim" class="md-nav__link">
+    <span class="md-ellipsis">
+      analyse_required_bond_dim
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="analyse_required_bond_dim">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quantum_genome_encoder.analyse_required_bond_dim--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantum_genome_encoder.analyse_required_bond_dim--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quantum_genome_encoder.convert_mps_to_circuit" class="md-nav__link">
+    <span class="md-ellipsis">
+      convert_mps_to_circuit
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="convert_mps_to_circuit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quantum_genome_encoder.convert_mps_to_circuit--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantum_genome_encoder.convert_mps_to_circuit--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../states_ref/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basic states
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#mps-construction-analysis-and-conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      MPS construction, analysis, and conversion
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quantum_genome_encoder.create_mps" class="md-nav__link">
+    <span class="md-ellipsis">
+      create_mps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="create_mps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quantum_genome_encoder.create_mps--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantum_genome_encoder.create_mps--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quantum_genome_encoder.analyse_required_bond_dim" class="md-nav__link">
+    <span class="md-ellipsis">
+      analyse_required_bond_dim
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="analyse_required_bond_dim">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quantum_genome_encoder.analyse_required_bond_dim--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantum_genome_encoder.analyse_required_bond_dim--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quantum_genome_encoder.convert_mps_to_circuit" class="md-nav__link">
+    <span class="md-ellipsis">
+      convert_mps_to_circuit
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="convert_mps_to_circuit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quantum_genome_encoder.convert_mps_to_circuit--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantum_genome_encoder.convert_mps_to_circuit--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="api-reference-mps-construction">API Reference - MPS Construction</h1>
+<p>The MPS construction, conversion, and analysis methods (currently also
+in <code>quantum_genome_encoder.encoding.py</code>) are documented in this section.</p>
+<h2 id="mps-construction-analysis-and-conversion">MPS construction, analysis, and conversion</h2>
+<p><div class="highlight"><pre><span></span><code>quantum_genome_encoder.create_mps(statevector, physical_dim, num_nodes, bond_dim)
+</code></pre></div>
+</p>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<a id="quantum_genome_encoder.create_mps"></a>
+    <div class="doc doc-contents first">
+
+        <p>Creates an MPS representation of the given state vector.</p>
+<h3 id="quantum_genome_encoder.create_mps--parameters">Parameters:</h3>
+<p><code>statevector</code> : <code>np.typing.ArrayLike</code> - 
+    Arbitrary normalised quantum state</p>
+<p><code>physical_dim</code> : <code>int</code> - 
+    Physical dimension of the given quantum state.</p>
+<p><code>num_nodes</code> : <code>int</code> - 
+    Number of particles in the given quantum state.</p>
+<p><code>bond_dim</code> : <code>int</code> - 
+    Number of singlar values kept in the SVD.</p>
+<h3 id="quantum_genome_encoder.create_mps--returns">Returns:</h3>
+<p><code>a_matrices</code> : <code>list[tn.Node]</code> - 
+    MPS nodes containing tensors of the MPS representation
+    of the given quantum state.</p>
+<p><code>connected_edges</code> : <code>list[tn.Edge]</code> - 
+    List of the connected edges in the MPS reresentation.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>quantum_genome_encoder/encoding.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">create_mps</span><span class="p">(</span><span class="n">statevector</span><span class="p">,</span> <span class="n">physical_dim</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">,</span> <span class="n">bond_dim</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates an MPS representation of the given state vector.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    `statevector` : `np.typing.ArrayLike` - </span>
+<span class="sd">        Arbitrary normalised quantum state</span>
+
+<span class="sd">    `physical_dim` : `int` - </span>
+<span class="sd">        Physical dimension of the given quantum state.</span>
+
+<span class="sd">    `num_nodes` : `int` - </span>
+<span class="sd">        Number of particles in the given quantum state.</span>
+
+<span class="sd">    `bond_dim` : `int` - </span>
+<span class="sd">        Number of singlar values kept in the SVD.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    `a_matrices` : `list[tn.Node]` - </span>
+<span class="sd">        MPS nodes containing tensors of the MPS representation</span>
+<span class="sd">        of the given quantum state.</span>
+
+<span class="sd">    `connected_edges` : `list[tn.Edge]` - </span>
+<span class="sd">        List of the connected edges in the MPS reresentation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">bond_dim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">bond_dim</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="mi">16</span>
+
+    <span class="c1"># First SVD decomposition</span>
+    <span class="n">a_matrices</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">ranks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">u_temp</span><span class="p">,</span> <span class="n">s_temp</span><span class="p">,</span> <span class="n">vh_temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span>
+        <span class="n">statevector</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">physical_dim</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="n">ranks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">u_temp</span><span class="p">[:,</span> <span class="p">:</span><span class="n">bond_dim</span><span class="p">]))</span>
+    <span class="n">a_matrices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">tn</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">u_temp</span><span class="p">[:,</span> <span class="p">:</span><span class="n">bond_dim</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">physical_dim</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Node 1&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">statevector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">s_temp</span><span class="p">[:</span><span class="n">bond_dim</span><span class="p">])</span> <span class="o">@</span> <span class="n">vh_temp</span><span class="p">[:</span><span class="n">bond_dim</span><span class="p">,</span> <span class="p">:]</span>
+
+    <span class="c1"># Subsequent SVD decompositions</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">):</span>
+        <span class="n">u_temp</span><span class="p">,</span> <span class="n">s_temp</span><span class="p">,</span> <span class="n">vh_temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span>
+            <span class="n">statevector</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">ranks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">physical_dim</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+        <span class="n">ranks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">u_temp</span><span class="p">[:,</span> <span class="p">:</span><span class="n">bond_dim</span><span class="p">]))</span>
+        <span class="n">a_matrices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">tn</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
+                <span class="n">u_temp</span><span class="p">[:,</span> <span class="p">:</span><span class="n">bond_dim</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">ranks</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">physical_dim</span><span class="p">,</span> <span class="n">ranks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span>
+                <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Node </span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">statevector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">s_temp</span><span class="p">[:</span><span class="n">bond_dim</span><span class="p">])</span> <span class="o">@</span> <span class="n">vh_temp</span><span class="p">[:</span><span class="n">bond_dim</span><span class="p">,</span> <span class="p">:]</span>
+
+    <span class="c1"># Special treatment for final node</span>
+    <span class="n">final_node</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">s_temp</span><span class="p">[:</span><span class="n">bond_dim</span><span class="p">])</span> <span class="o">@</span> <span class="n">vh_temp</span><span class="p">[:</span><span class="n">bond_dim</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">final_node</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">final_node</span><span class="p">)</span>
+    <span class="n">a_matrices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">tn</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">final_node</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">physical_dim</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Node </span><span class="si">{</span><span class="n">num_nodes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Connect edges to build mps</span>
+    <span class="n">connected_edges</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">a_matrices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">^</span> <span class="n">a_matrices</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">connected_edges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_nodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">conn</span> <span class="o">=</span> <span class="n">a_matrices</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">^</span> <span class="n">a_matrices</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">connected_edges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">a_matrices</span><span class="p">,</span> <span class="n">connected_edges</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div><hr />
+<p><div class="highlight"><pre><span></span><code>analyse_required_bond_dim(statevector, num_nodes, physical_dim, make_plots=False, tol=TOL_DEFAULT_ERR)
+</code></pre></div>
+</p>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<a id="quantum_genome_encoder.analyse_required_bond_dim"></a>
+    <div class="doc doc-contents first">
+
+        <p>Analyse the required bond dimension of a given MPS to reproduce a state vector
+within required fidelity.</p>
+<h3 id="quantum_genome_encoder.analyse_required_bond_dim--parameters">Parameters:</h3>
+<p><code>statevector</code> : <code>str</code> - 
+    The quantum state to be analysed.</p>
+<p><code>num_nodes</code> : <code>int</code> - 
+    Number of particles in the generated quantum state.</p>
+<p><code>physical_dim</code> : <code>int</code> - 
+    Physical dimension of the generated quantum state.</p>
+<p><code>make_plots</code> : <code>bool</code> - 
+    Plot reconstruction error against bond dimension.</p>
+<p><code>tol</code> : <code>float</code> - 
+    Default tolerance on reconstruction err, <code>TOL_DEFAULT_ERR</code> by default.</p>
+<h3 id="quantum_genome_encoder.analyse_required_bond_dim--returns">Returns:</h3>
+<p><code>bond_dim</code> : <code>int</code> - 
+    The required bond dimension for the given tolerance.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>quantum_genome_encoder/encoding.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">analyse_required_bond_dim</span><span class="p">(</span><span class="n">statevector</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">,</span> <span class="n">physical_dim</span><span class="p">,</span> <span class="n">make_plots</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">TOL_DEFAULT_ERR</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Analyse the required bond dimension of a given MPS to reproduce a state vector</span>
+<span class="sd">    within required fidelity.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    `statevector` : `str` - </span>
+<span class="sd">        The quantum state to be analysed.</span>
+
+<span class="sd">    `num_nodes` : `int` - </span>
+<span class="sd">        Number of particles in the generated quantum state.</span>
+
+<span class="sd">    `physical_dim` : `int` - </span>
+<span class="sd">        Physical dimension of the generated quantum state.</span>
+
+<span class="sd">    `make_plots` : `bool` - </span>
+<span class="sd">        Plot reconstruction error against bond dimension.</span>
+
+<span class="sd">    `tol` : `float` - </span>
+<span class="sd">        Default tolerance on reconstruction err, `TOL_DEFAULT_ERR` by default.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    -------</span>
+<span class="sd">    `bond_dim` : `int` - </span>
+<span class="sd">        The required bond dimension for the given tolerance.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">bond_dim</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">fidelity</span> <span class="o">=</span> <span class="mf">0.</span>
+
+    <span class="c1"># Parameter to estimate steps in bond dimension required.</span>
+    <span class="c1"># Must be &gt; 0.5 otherwise convergence is not guaranteed.</span>
+    <span class="c1"># Smaller -&gt; slower convergence, smaller overestimate.</span>
+    <span class="c1"># Larger -&gt; faster convergence, larger overestimate.</span>
+    <span class="n">DESCENT_PARAM</span> <span class="o">=</span> <span class="mf">0.75</span>
+
+    <span class="k">if</span> <span class="n">make_plots</span><span class="p">:</span>
+        <span class="n">bond_dim_diffs</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">while</span> <span class="n">fidelity</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">tol</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">mps_edges</span> <span class="o">=</span> <span class="n">create_mps</span><span class="p">(</span><span class="n">statevector</span><span class="p">,</span> <span class="n">physical_dim</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">,</span> <span class="n">bond_dim</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">mps_edges</span><span class="p">:</span>
+            <span class="n">mps_tensor</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
+
+        <span class="n">fidelity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">statevector</span><span class="o">.</span><span class="n">conj</span><span class="p">(),</span> <span class="n">mps_tensor</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">make_plots</span><span class="p">:</span>
+            <span class="n">bond_dim_diffs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">bond_dim</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">fidelity</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+
+        <span class="k">if</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">fidelity</span> <span class="o">&gt;</span> <span class="n">tol</span><span class="p">:</span>
+            <span class="n">grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">fidelity</span><span class="p">)</span> <span class="o">/</span> <span class="n">tol</span> <span class="p">)</span>
+            <span class="c1"># Use a descent parameter to ensure we do not wildly</span>
+            <span class="c1"># overestimate bond dimension, will require tuning.</span>
+            <span class="n">grad</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">grad</span> <span class="o">*</span> <span class="n">DESCENT_PARAM</span><span class="p">)</span>
+            <span class="n">bond_dim</span> <span class="o">+=</span> <span class="n">grad</span>
+
+    <span class="k">if</span> <span class="n">make_plots</span><span class="p">:</span>
+        <span class="n">bond_dim_diffs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">bond_dim_diffs</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Reconstruction error of state vector for given bond dimension&quot;</span>
+        <span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Bond Dimension&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Reconstruction Error&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">bond_dim</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div><hr />
+<p><div class="highlight"><pre><span></span><code>convert_mps_to_circuit(statevector, num_nodes, physical_dim, plot_each_iter, tol=TOL_DEFAULT_ERR)
+</code></pre></div>
+</p>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<a id="quantum_genome_encoder.convert_mps_to_circuit"></a>
+    <div class="doc doc-contents first">
+
+        <p>Converts a given arbitrary normalised quantum state into an MPS
+representation, and then use that MPS representation to generate a
+gate-based quantum circuit.</p>
+<h3 id="quantum_genome_encoder.convert_mps_to_circuit--parameters">Parameters:</h3>
+<p><code>statevector</code> : <code>np.typing.ArrayLike</code> - 
+    List of number of MPS nodes to be generated for comparison.</p>
+<p><code>num_nodes</code> : <code>int</code> - 
+    Number of nodes in the MPS.</p>
+<p><code>physical_dim</code> : <code>int</code> - 
+    Physical dimension of the generated quantum states.</p>
+<p><code>plot_each_iter</code> : <code>bool</code> - 
+    Show the plot of the circuit and target vector each iteration
+    in main loop, defaults to <code>False</code>.</p>
+<p><code>tol</code> : <code>float</code> - 
+    fidelity of MPS representation required to original vector,
+    defaults to <code>TOL_DEFAULT_ERROR</code></p>
+<h3 id="quantum_genome_encoder.convert_mps_to_circuit--returns">Returns:</h3>
+<p><code>produced_circuit</code> : <code>qiskit.QuantumCircuit</code> - 
+    Quantum circuit produced from MPS representation.</p>
+<p><code>gates</code> : <code>int</code> - 
+    Number of gates in the produced quantum circuit.</p>
+<p><code>entropy</code> : <code>float</code> - 
+    Entropy of given representation.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>quantum_genome_encoder/encoding.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">convert_mps_to_circuit</span><span class="p">(</span><span class="n">statevector</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">,</span> <span class="n">physical_dim</span><span class="p">,</span> <span class="n">plot_each_iter</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">TOL_DEFAULT_ERR</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts a given arbitrary normalised quantum state into an MPS</span>
+<span class="sd">    representation, and then use that MPS representation to generate a</span>
+<span class="sd">    gate-based quantum circuit.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    ----------</span>
+<span class="sd">    `statevector` : `np.typing.ArrayLike` - </span>
+<span class="sd">        List of number of MPS nodes to be generated for comparison.</span>
+
+<span class="sd">    `num_nodes` : `int` - </span>
+<span class="sd">        Number of nodes in the MPS.</span>
+
+<span class="sd">    `physical_dim` : `int` - </span>
+<span class="sd">        Physical dimension of the generated quantum states.</span>
+
+<span class="sd">    `plot_each_iter` : `bool` - </span>
+<span class="sd">        Show the plot of the circuit and target vector each iteration</span>
+<span class="sd">        in main loop, defaults to `False`.</span>
+
+<span class="sd">    `tol` : `float` - </span>
+<span class="sd">        fidelity of MPS representation required to original vector,</span>
+<span class="sd">        defaults to `TOL_DEFAULT_ERROR`</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    `produced_circuit` : `qiskit.QuantumCircuit` - </span>
+<span class="sd">        Quantum circuit produced from MPS representation.</span>
+
+<span class="sd">    `gates` : `int` - </span>
+<span class="sd">        Number of gates in the produced quantum circuit.</span>
+
+<span class="sd">    `entropy` : `float` - </span>
+<span class="sd">        Entropy of given representation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">target</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">statevector</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">mps_edges</span> <span class="o">=</span> <span class="n">create_mps</span><span class="p">(</span><span class="n">statevector</span><span class="p">,</span> <span class="n">physical_dim</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">mps_edges</span><span class="p">:</span>
+        <span class="n">mps_tensor</span> <span class="o">=</span> <span class="n">tn</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
+
+    <span class="n">_</span><span class="p">,</span> <span class="n">s_temp</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">mps_tensor</span><span class="o">.</span><span class="n">tensor</span><span class="p">)</span>
+    <span class="n">s_temp</span> <span class="o">=</span> <span class="n">s_temp</span><span class="p">[</span><span class="n">s_temp</span> <span class="o">&gt;</span> <span class="mf">1e-16</span><span class="p">]</span>
+    <span class="n">entropy</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">s_temp</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">s_temp</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+
+    <span class="n">produced_circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">)</span>
+
+    <span class="n">zero_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">statevector</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+    <span class="n">zero_state</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="n">fidelity</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">layer_unitaries</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">validation_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">REQ_SIZE</span> <span class="o">=</span> <span class="mi">15</span>
+    <span class="n">iterations</span> <span class="o">=</span> <span class="mi">0</span> 
+    <span class="k">while</span> <span class="n">fidelity</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">tol</span><span class="p">:</span>
+        <span class="c1"># If the last REQ_SIZE sequences decoded have been identical, break.</span>
+        <span class="c1"># Idea: break when decoded genome is stable, rather than waiting</span>
+        <span class="c1"># on fidelity.</span>
+        <span class="c1"># We can tune this parameter for efficiency.</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">validation_list</span><span class="p">)</span> <span class="o">==</span> <span class="n">REQ_SIZE</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="n">iterations</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">unitaries</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">mps_nodes</span><span class="p">,</span> <span class="n">mps_edges</span> <span class="o">=</span> <span class="n">create_mps</span><span class="p">(</span><span class="n">statevector</span><span class="p">,</span> <span class="n">physical_dim</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">)</span>
+        <span class="n">v1</span> <span class="o">=</span> <span class="n">mps_nodes</span><span class="p">[</span><span class="n">num_nodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">v2</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">null_space</span><span class="p">(</span><span class="n">v1</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">u_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">unitary</span><span class="p">(</span><span class="n">u_matrix</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">unitaries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u_matrix</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_nodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">v1</span> <span class="o">=</span> <span class="n">mps_nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">v2</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">null_space</span><span class="p">(</span><span class="n">v1</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            <span class="n">u_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">unitary</span><span class="p">(</span><span class="n">u_matrix</span><span class="p">,</span> <span class="p">[(</span><span class="n">num_nodes</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">num_nodes</span> <span class="o">-</span> <span class="n">i</span><span class="p">)])</span>
+            <span class="n">unitaries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u_matrix</span><span class="p">)</span>
+
+        <span class="n">circuit</span><span class="o">.</span><span class="n">unitary</span><span class="p">(</span><span class="n">mps_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span> <span class="p">[</span><span class="n">num_nodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">unitaries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mps_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tensor</span><span class="p">)</span>
+
+        <span class="n">produced_circuit</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">layer_unitaries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Operator</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="n">statevector</span> <span class="o">=</span> <span class="n">Operator</span><span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">inverse</span><span class="p">())</span><span class="o">.</span><span class="n">data</span> <span class="o">@</span> <span class="n">statevector</span>
+        <span class="n">fidelity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">zero_state</span><span class="o">.</span><span class="n">conj</span><span class="p">(),</span> <span class="n">statevector</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">trial</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">zero_state</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">unitary</span> <span class="ow">in</span> <span class="n">layer_unitaries</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">trial</span> <span class="o">@=</span> <span class="n">unitary</span><span class="o">.</span><span class="n">T</span>
+
+        <span class="n">decoded_seq</span> <span class="o">=</span> <span class="n">decode_state</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">validation_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">validation_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">decoded_seq</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">decoded_seq</span> <span class="o">!=</span> <span class="n">validation_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">validation_list</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+        <span class="n">validation_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">decoded_seq</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">plot_each_iter</span><span class="p">:</span>            
+            <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trial</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|\psi_k\rangle$&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">target</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">target</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|\psi_{\rm</span><span class="si">{target}</span><span class="s2">}\rangle$&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Probability&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+            <span class="n">produced_circuit</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;mpl&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="n">gates</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">unitary</span> <span class="ow">in</span> <span class="n">layer_unitaries</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">zero_state</span> <span class="o">@=</span> <span class="n">unitary</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">gates</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># Qiskit benchmarking checks - not required for functionality</span>
+    <span class="c1"># qis_circ = QuantumCircuit(num_nodes)</span>
+    <span class="c1"># qis_circ.initialize(target)</span>
+    <span class="c1"># qis_trans_circ = transpile(</span>
+    <span class="c1">#     qis_circ, basis_gates=[&quot;x&quot;, &quot;sx&quot;, &quot;rz&quot;, &quot;cx&quot;], optimization_level=3</span>
+    <span class="c1"># )</span>
+
+    <span class="k">return</span> <span class="n">produced_circuit</span><span class="p">,</span> <span class="n">gates</span><span class="p">,</span> <span class="n">entropy</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div><hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; <script>document.write(new Date().getFullYear())</script> Genome Research Ltd.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "navigation.indexes", "navigation.expand", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.56dfad97.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
