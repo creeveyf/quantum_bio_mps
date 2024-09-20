@@ -31,6 +31,14 @@ markdown_extensions:
 
 plugins:
   - search
+  - mkdocstrings
+
+nav:
+  - Overview: index.md
+  - API Reference:
+      - Encoding: encoding_ref.md
+      - MPS construction: mps_ref.md
+      - Basic states: states_ref.md
 
 extra_javascript:
   - javascripts/mathjax.js

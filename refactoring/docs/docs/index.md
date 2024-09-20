@@ -1,8 +1,3 @@
----
-title: "Overview"
-weight: -10
----
-
 # Overview
 
 This resource describes the functionality of the quantum genome
@@ -36,7 +31,7 @@ description.
 The base register requires two qubits, and we map the bases according
 to the following table:
 
-|  A |  T |  C |  G |
+|  A |  T |  G |  C |
 |----|----|----|----|
 | 00 | 01 | 10 | 11 |
 
@@ -189,6 +184,6 @@ as illustrated by the gate count comparisons below:
 The greater economy in gates is illustrated clearly, the discrete jumps in gate count
 indicate an increase in the number of qubits required to encode the genome.
 
-Even without optimisation, the economy of this approach makes clear that the MPS
-approach can provide a more favourable encoding than pure QisKit. We relegate
-the discussion of the optimisation to future documentation for now.
+Even without optimisation, the economy of this approach makes clear that MPS can
+provide a more favourable encoding than pure QisKit. We relegate the discussion
+of the optimisation to future documentation for now.
