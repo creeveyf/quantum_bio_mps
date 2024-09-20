@@ -44,17 +44,17 @@ TOL_DEFAULT_ERR = 1e-3
 
 def generate_genome(length):
     """
-    Generates a genome of length 'length', using the nucleobase set of
+    Generates a genome of length `length`, using the nucleobase set of
     {A, T, G, C}.
 
     Parameters:
     -----------
-    lenght : int
+    `length` : `int` - 
         Length of required genome.
 
     Returns:
     --------
-    genome : np.ndarray
+    `genome` : `np.ndarray` - 
         An array of nucleobases forming the genome.
     """
 
@@ -70,14 +70,15 @@ def read_genome(file, length):
 
     Parameters:
     ----------
-    file : str
+    `file` : `str` - 
         Location of data file where genome is stored.
-    length : int
+
+    `length` : `int` - 
         Length of genome to be read.
 
     Returns:
     --------
-    genome : np.ndarray
+    `genome` : `np.ndarray` - 
         An array of nucleobases forming the genome
     """
 
@@ -93,18 +94,20 @@ def read_genome(file, length):
 
 def encode_genome(genome):
     """
-    Encodes the given genome into a binary representation with BASE_MAP
+    Encodes the given genome into a binary representation with
+    `BASE_MAP`
 
     Parameters:
     ----------
-    genome : np.ndarray
+    `genome` : `np.ndarray` - 
         Genome array comprised of nucleobases from {A, T, G, C}.
 
     Returns:
     -------
-    encoded_genome : np.ndarray
+    `encoded_genome` : `np.ndarray` - 
         Normalised binary encoding of the given genome.
-    num_qubits : int
+
+    `num_qubits` : `int` - 
         Total number of qubits required for encoding.
     """
 
@@ -129,16 +132,18 @@ def decode_state(statevector, num_qubits, tol=TOL_DEFAULT_ERR):
 
     Parameters:
     -----------
-    statevector : np.typing.ArrayLike
+    `statevector` : `np.typing.ArrayLike` - 
         Normalised quantum state vector to decode.
-    num_qubits : int
+
+    `num_qubits` : `int` - 
         Total number of qubits used in the encoding.
-    tol : float
+
+    `tol` : `float` -
         Tolerance of decoding, by default set to TOL_DEFAULT_ERR
 
     Returns:
     --------
-    decoded : str
+    `decoded` : `str` - 
         Genome as reconstructed from inverse of encode_genome
     """
     decoded = ""
@@ -158,25 +163,29 @@ def decode_state(statevector, num_qubits, tol=TOL_DEFAULT_ERR):
 
 def create_mps(statevector, physical_dim, num_nodes, bond_dim):
     """
-    Creates an MPS representation of the given statevector.
+    Creates an MPS representation of the given state vector.
 
     Parameters:
     -----------
-    statevector : np.typing.ArrayLike
-        Arbitrary normalised quantum state of
-    physical_dim : int
+    `statevector` : `np.typing.ArrayLike` - 
+        Arbitrary normalised quantum state
+
+    `physical_dim` : `int` - 
         Physical dimension of the given quantum state.
-    num_nodes : int
+
+    `num_nodes` : `int` - 
         Number of particles in the given quantum state.
-    bond_dim : int
+
+    `bond_dim` : `int` - 
         Number of singlar values kept in the SVD.
 
     Returns:
     --------
-    a_matrices : list[tn.Node]
+    `a_matrices` : `list[tn.Node]` - 
         MPS nodes containing tensors of the MPS representation
         of the given quantum state.
-    connected_edges : list[tn.Edge]
+
+    `connected_edges` : `list[tn.Edge]` - 
         List of the connected edges in the MPS reresentation.
     """
 
@@ -235,20 +244,24 @@ def analyse_required_bond_dim(statevector, num_nodes, physical_dim, make_plots=F
 
     Parameters:
     -----------
-    statevector : str
+    `statevector` : `str` - 
         The quantum state to be analysed.
-    num_nodes : int
+
+    `num_nodes` : `int` - 
         Number of particles in the generated quantum state.
-    physical_dim : int
+
+    `physical_dim` : `int` - 
         Physical dimension of the generated quantum state.
-    make_plots : bool
+
+    `make_plots` : `bool` - 
         Plot reconstruction error against bond dimension.
-    tol : float
-        Default tolerance on reconstruction err, TOL_DEFAULT_ERR by default.
+
+    `tol` : `float` - 
+        Default tolerance on reconstruction err, `TOL_DEFAULT_ERR` by default.
 
     Returns:
     -------
-    bond_dim : int
+    `bond_dim` : `int` - 
         The required bond dimension for the given tolerance.
     """
 
@@ -304,26 +317,32 @@ def convert_mps_to_circuit(statevector, num_nodes, physical_dim, plot_each_iter,
 
     Parameters:
     ----------
-    statevector : np.typing.ArrayLike
+    `statevector` : `np.typing.ArrayLike` - 
         List of number of MPS nodes to be generated for comparison.
-    num_nodes : int
+
+    `num_nodes` : `int` - 
         Number of nodes in the MPS.
-    physical_dim : int
+
+    `physical_dim` : `int` - 
         Physical dimension of the generated quantum states.
-    plot_each_iter : bool
+
+    `plot_each_iter` : `bool` - 
         Show the plot of the circuit and target vector each iteration
-        in main loop, defaults to False.
-    tol : float
+        in main loop, defaults to `False`.
+
+    `tol` : `float` - 
         fidelity of MPS representation required to original vector,
-        defaults to TOL_DEFAULT_ERROR
+        defaults to `TOL_DEFAULT_ERROR`
 
     Returns:
-    -------
-    produced_circuit : qiskit.QuantumCircuit
+    --------
+    `produced_circuit` : `qiskit.QuantumCircuit` - 
         Quantum circuit produced from MPS representation.
-    gates : int
+
+    `gates` : `int` - 
         Number of gates in the produced quantum circuit.
-    entropy : float
+
+    `entropy` : `float` - 
         Entropy of given representation.
     """
 
@@ -381,7 +400,6 @@ def convert_mps_to_circuit(statevector, num_nodes, physical_dim, plot_each_iter,
         layer_unitaries.append(Operator(circuit).data)
 
         statevector = Operator(circuit.inverse()).data @ statevector
-
         fidelity = np.abs(np.dot(zero_state.conj(), statevector)) ** 2
         trial = copy.copy(zero_state)
         for unitary in layer_unitaries[::-1]:
