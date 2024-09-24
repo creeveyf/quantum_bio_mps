@@ -292,7 +292,7 @@ def analyse_required_bond_dim(statevector, num_nodes, physical_dim, make_plots=F
             grad = np.log10( (1 - fidelity) / tol )
             # Use a descent parameter to ensure we do not wildly
             # overestimate bond dimension, will require tuning.
-            grad = int(grad * DESCENT_PARAM)
+            grad = max(1, int(grad * DESCENT_PARAM))
             bond_dim += grad
 
     if make_plots:
