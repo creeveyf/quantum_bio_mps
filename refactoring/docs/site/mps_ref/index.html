@@ -661,13 +661,7 @@ in <code>quantum_genome_encoder.encoding.py</code>) are documented in this secti
 
             <details class="quote">
               <summary>Source code in <code>quantum_genome_encoder/encoding.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">170</span>
 <span class="normal">171</span>
 <span class="normal">172</span>
 <span class="normal">173</span>
@@ -734,7 +728,13 @@ in <code>quantum_genome_encoder.encoding.py</code>) are documented in this secti
 <span class="normal">234</span>
 <span class="normal">235</span>
 <span class="normal">236</span>
-<span class="normal">237</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">create_mps</span><span class="p">(</span><span class="n">statevector</span><span class="p">,</span> <span class="n">physical_dim</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">,</span> <span class="n">bond_dim</span><span class="p">):</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">create_mps</span><span class="p">(</span><span class="n">statevector</span><span class="p">,</span> <span class="n">physical_dim</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">,</span> <span class="n">bond_dim</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates an MPS representation of the given state vector.</span>
 
@@ -838,19 +838,15 @@ within required fidelity.</p>
     Plot reconstruction error against bond dimension.</p>
 <p><code>tol</code> : <code>float</code> - 
     Default tolerance on reconstruction err, <code>TOL_DEFAULT_ERR</code> by default.</p>
+<p><code>descent_param</code> : <code>float</code> - 
+    Parameter for estimating jumps in bond dimension, <code>DESCENT_PARAM</code> by default.</p>
 <h3 id="quantum_genome_encoder.analyse_required_bond_dim--returns">Returns:</h3>
 <p><code>bond_dim</code> : <code>int</code> - 
     The required bond dimension for the given tolerance.</p>
 
             <details class="quote">
               <summary>Source code in <code>quantum_genome_encoder/encoding.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">246</span>
 <span class="normal">247</span>
 <span class="normal">248</span>
 <span class="normal">249</span>
@@ -913,7 +909,10 @@ within required fidelity.</p>
 <span class="normal">306</span>
 <span class="normal">307</span>
 <span class="normal">308</span>
-<span class="normal">309</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">analyse_required_bond_dim</span><span class="p">(</span><span class="n">statevector</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">,</span> <span class="n">physical_dim</span><span class="p">,</span> <span class="n">make_plots</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">TOL_DEFAULT_ERR</span><span class="p">):</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">analyse_required_bond_dim</span><span class="p">(</span><span class="n">statevector</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">,</span> <span class="n">physical_dim</span><span class="p">,</span> <span class="n">make_plots</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">TOL_DEFAULT_ERR</span><span class="p">,</span> <span class="n">descent_param</span><span class="o">=</span><span class="n">DESCENT_PARAM</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Analyse the required bond dimension of a given MPS to reproduce a state vector</span>
 <span class="sd">    within required fidelity.</span>
@@ -935,6 +934,9 @@ within required fidelity.</p>
 <span class="sd">    `tol` : `float` - </span>
 <span class="sd">        Default tolerance on reconstruction err, `TOL_DEFAULT_ERR` by default.</span>
 
+<span class="sd">    `descent_param` : `float` - </span>
+<span class="sd">        Parameter for estimating jumps in bond dimension, `DESCENT_PARAM` by default.</span>
+
 <span class="sd">    Returns:</span>
 <span class="sd">    -------</span>
 <span class="sd">    `bond_dim` : `int` - </span>
@@ -943,12 +945,6 @@ within required fidelity.</p>
 
     <span class="n">bond_dim</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">fidelity</span> <span class="o">=</span> <span class="mf">0.</span>
-
-    <span class="c1"># Parameter to estimate steps in bond dimension required.</span>
-    <span class="c1"># Must be &gt; 0.5 otherwise convergence is not guaranteed.</span>
-    <span class="c1"># Smaller -&gt; slower convergence, smaller overestimate.</span>
-    <span class="c1"># Larger -&gt; faster convergence, larger overestimate.</span>
-    <span class="n">DESCENT_PARAM</span> <span class="o">=</span> <span class="mf">100.75</span>
 
     <span class="k">if</span> <span class="n">make_plots</span><span class="p">:</span>
         <span class="n">bond_dim_diffs</span> <span class="o">=</span> <span class="p">[]</span>
@@ -968,7 +964,7 @@ within required fidelity.</p>
             <span class="n">grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">fidelity</span><span class="p">)</span> <span class="o">/</span> <span class="n">tol</span> <span class="p">)</span>
             <span class="c1"># Use a descent parameter to ensure we do not wildly</span>
             <span class="c1"># overestimate bond dimension, will require tuning.</span>
-            <span class="n">grad</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">grad</span> <span class="o">*</span> <span class="n">DESCENT_PARAM</span><span class="p">))</span>
+            <span class="n">grad</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">grad</span> <span class="o">*</span> <span class="n">descent_param</span><span class="p">))</span>
             <span class="n">bond_dim</span> <span class="o">+=</span> <span class="n">grad</span>
 
     <span class="k">if</span> <span class="n">make_plots</span><span class="p">:</span>
@@ -1026,10 +1022,7 @@ gate-based quantum circuit.</p>
 
             <details class="quote">
               <summary>Source code in <code>quantum_genome_encoder/encoding.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">312</span>
-<span class="normal">313</span>
-<span class="normal">314</span>
-<span class="normal">315</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">315</span>
 <span class="normal">316</span>
 <span class="normal">317</span>
 <span class="normal">318</span>
@@ -1153,7 +1146,10 @@ gate-based quantum circuit.</p>
 <span class="normal">436</span>
 <span class="normal">437</span>
 <span class="normal">438</span>
-<span class="normal">439</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">convert_mps_to_circuit</span><span class="p">(</span><span class="n">statevector</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">,</span> <span class="n">physical_dim</span><span class="p">,</span> <span class="n">plot_each_iter</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">TOL_DEFAULT_ERR</span><span class="p">):</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">convert_mps_to_circuit</span><span class="p">(</span><span class="n">statevector</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">,</span> <span class="n">physical_dim</span><span class="p">,</span> <span class="n">plot_each_iter</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">TOL_DEFAULT_ERR</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a given arbitrary normalised quantum state into an MPS</span>
 <span class="sd">    representation, and then use that MPS representation to generate a</span>

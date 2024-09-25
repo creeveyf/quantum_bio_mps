@@ -693,10 +693,10 @@ use with genomic data.</p>
         <p>Generates an entangled quantum W state for a given number of
 qubits.</p>
 <h3 id="quantum_genome_encoder.generate_w_state--parameters">Parameters:</h3>
-<p>num_qubits : int
+<p><code>num_qubits</code> : <code>int</code> - 
     Qubits for required W state.</p>
 <h3 id="quantum_genome_encoder.generate_w_state--returns">Returns:</h3>
-<p>statevector : np.typing.ArrayLike
+<p><code>statevector</code> : <code>np.typing.ArrayLike</code> - 
     Corresponding state vector to W state.</p>
 
             <details class="quote">
@@ -734,12 +734,12 @@ qubits.</p>
 
 <span class="sd">    Parameters:</span>
 <span class="sd">    -----------</span>
-<span class="sd">    num_qubits : int</span>
+<span class="sd">    `num_qubits` : `int` - </span>
 <span class="sd">        Qubits for required W state.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">    --------</span>
-<span class="sd">    statevector : np.typing.ArrayLike</span>
+<span class="sd">    `statevector` : `np.typing.ArrayLike` - </span>
 <span class="sd">        Corresponding state vector to W state.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">statevector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
@@ -774,10 +774,10 @@ qubits.</p>
         <p>Generates an entangled quantum GHZ (Greenberger-Horne-Zellinger)
 state for a given number ofqubits.</p>
 <h3 id="quantum_genome_encoder.generate_ghz_state--parameters">Parameters:</h3>
-<p>num_qubits : int
+<p><code>num_qubits</code> : <code>int</code> - 
     Qubits for required GHZ state.</p>
 <h3 id="quantum_genome_encoder.generate_ghz_state--returns">Returns:</h3>
-<p>statevector : np.typing.ArrayLike
+<p><code>statevector</code> : <code>np.typing.ArrayLike</code> - 
     Corresponding state vector to GHZ state.</p>
 
             <details class="quote">
@@ -808,12 +808,12 @@ state for a given number ofqubits.</p>
 
 <span class="sd">    Parameters:</span>
 <span class="sd">    -----------</span>
-<span class="sd">    num_qubits : int</span>
+<span class="sd">    `num_qubits` : `int` - </span>
 <span class="sd">        Qubits for required GHZ state.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">    --------</span>
-<span class="sd">    statevector : np.typing.ArrayLike</span>
+<span class="sd">    `statevector` : `np.typing.ArrayLike` - </span>
 <span class="sd">        Corresponding state vector to GHZ state.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">statevector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
@@ -840,10 +840,10 @@ state for a given number ofqubits.</p>
 
         <p>Generates a Gaussian state for a given number of qubits.</p>
 <h3 id="quantum_genome_encoder.generate_gaussian_state--parameters">Parameters:</h3>
-<p>num_qubits : int
+<p><code>num_qubits</code> : <code>int</code> - 
     Qubits for required Gaussian state.</p>
 <h3 id="quantum_genome_encoder.generate_gaussian_state--returns">Returns:</h3>
-<p>statevector : np.typing.ArrayLike
+<p><code>statevector</code> : <code>np.typing.ArrayLike</code> - 
     Corresponding state vector to Gaussian state.</p>
 
             <details class="quote">
@@ -875,12 +875,12 @@ state for a given number ofqubits.</p>
 
 <span class="sd">    Parameters:</span>
 <span class="sd">    -----------</span>
-<span class="sd">    num_qubits : int</span>
+<span class="sd">    `num_qubits` : `int` - </span>
 <span class="sd">        Qubits for required Gaussian state.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">    --------</span>
-<span class="sd">    statevector : np.typing.ArrayLike</span>
+<span class="sd">    `statevector` : `np.typing.ArrayLike` - </span>
 <span class="sd">        Corresponding state vector to Gaussian state.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">num_qubits</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">num_qubits</span><span class="p">)</span> <span class="o">/</span> <span class="mi">4</span>
@@ -911,10 +911,10 @@ state for a given number ofqubits.</p>
         <p>Generates a random state for a given number of qubits (currently wrapping
 around QisKit).</p>
 <h3 id="quantum_genome_encoder.generate_random_state--parameters">Parameters:</h3>
-<p>num_qubits : int
+<p><code>num_qubits</code> : <code>int</code> - 
     Qubits for required Gaussian state.</p>
 <h3 id="quantum_genome_encoder.generate_random_state--returns">Returns:</h3>
-<p>statevector : np.typing.ArrayLike
+<p><code>statevector</code> : <code>np.typing.ArrayLike</code> - 
     Corresponding random state vector.</p>
 
             <details class="quote">
@@ -941,12 +941,12 @@ around QisKit).</p>
 
 <span class="sd">    Parameters:</span>
 <span class="sd">    -----------</span>
-<span class="sd">    num_qubits : int</span>
+<span class="sd">    `num_qubits` : `int` - </span>
 <span class="sd">        Qubits for required Gaussian state.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">    --------</span>
-<span class="sd">    statevector : np.typing.ArrayLike</span>
+<span class="sd">    `statevector` : `np.typing.ArrayLike` - </span>
 <span class="sd">        Corresponding random state vector.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">random_statevector</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">num_qubits</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
