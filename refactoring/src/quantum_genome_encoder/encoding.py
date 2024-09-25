@@ -42,6 +42,12 @@ REV_BASE_MAP = dict((reversed(item) for item in BASE_MAP.items()))
 
 TOL_DEFAULT_ERR = 1e-3
 
+# Parameter to estimate steps in bond dimension required.
+# Must be > 0.5 otherwise convergence is not guaranteed.
+# Smaller -> slower convergence, smaller overestimate.
+# Larger -> faster convergence, larger overestimate.
+DESCENT_PARAM = 0.75
+
 def generate_genome(length):
     """
     Generates a genome of length `length`, using the nucleobase set of
@@ -237,7 +243,7 @@ def create_mps(statevector, physical_dim, num_nodes, bond_dim):
     return a_matrices, connected_edges
 
 
-def analyse_required_bond_dim(statevector, num_nodes, physical_dim, make_plots=False, tol=TOL_DEFAULT_ERR):
+def analyse_required_bond_dim(statevector, num_nodes, physical_dim, make_plots=False, tol=TOL_DEFAULT_ERR, descent_param=DESCENT_PARAM):
     """
     Analyse the required bond dimension of a given MPS to reproduce a state vector
     within required fidelity.
@@ -259,6 +265,9 @@ def analyse_required_bond_dim(statevector, num_nodes, physical_dim, make_plots=F
     `tol` : `float` - 
         Default tolerance on reconstruction err, `TOL_DEFAULT_ERR` by default.
 
+    `descent_param` : `float` - 
+        Parameter for estimating jumps in bond dimension, `DESCENT_PARAM` by default.
+
     Returns:
     -------
     `bond_dim` : `int` - 
@@ -267,12 +276,6 @@ def analyse_required_bond_dim(statevector, num_nodes, physical_dim, make_plots=F
 
     bond_dim = 1
     fidelity = 0.
-
-    # Parameter to estimate steps in bond dimension required.
-    # Must be > 0.5 otherwise convergence is not guaranteed.
-    # Smaller -> slower convergence, smaller overestimate.
-    # Larger -> faster convergence, larger overestimate.
-    DESCENT_PARAM = 0.75
 
     if make_plots:
         bond_dim_diffs = []
@@ -292,7 +295,7 @@ def analyse_required_bond_dim(statevector, num_nodes, physical_dim, make_plots=F
             grad = np.log10( (1 - fidelity) / tol )
             # Use a descent parameter to ensure we do not wildly
             # overestimate bond dimension, will require tuning.
-            grad = max(1, int(grad * DESCENT_PARAM))
+            grad = max(1, int(grad * descent_param))
             bond_dim += grad
 
     if make_plots:
