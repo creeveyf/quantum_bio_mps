@@ -13,7 +13,7 @@ quantum_genome_encoder.create_mps(statevector, physical_dim, num_nodes, bond_dim
 ---
 
 ```
-analyse_required_bond_dim(statevector, num_nodes, physical_dim, make_plots=False, tol=TOL_DEFAULT_ERR)
+analyse_required_bond_dim(statevector, num_nodes, physical_dim, make_plots=False, tol=TOL_DEFAULT_ERR, descent_param=DESCENT_PARAM)
 ```
 ::: quantum_genome_encoder.analyse_required_bond_dim
     handler: python
