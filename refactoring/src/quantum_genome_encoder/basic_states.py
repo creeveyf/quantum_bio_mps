@@ -20,12 +20,12 @@ def generate_w_state(num_qubits):
 
     Parameters:
     -----------
-    num_qubits : int
+    `num_qubits` : `int` - 
         Qubits for required W state.
 
     Returns:
     --------
-    statevector : np.typing.ArrayLike
+    `statevector` : `np.typing.ArrayLike` - 
         Corresponding state vector to W state.
     """
     statevector = np.zeros(2**num_qubits, dtype=np.complex128)
@@ -48,12 +48,12 @@ def generate_ghz_state(num_qubits):
 
     Parameters:
     -----------
-    num_qubits : int
+    `num_qubits` : `int` - 
         Qubits for required GHZ state.
 
     Returns:
     --------
-    statevector : np.typing.ArrayLike
+    `statevector` : `np.typing.ArrayLike` - 
         Corresponding state vector to GHZ state.
     """
     statevector = np.zeros(2**num_qubits, dtype=np.complex128)
@@ -68,12 +68,12 @@ def generate_gaussian_state(num_qubits):
 
     Parameters:
     -----------
-    num_qubits : int
+    `num_qubits` : `int` - 
         Qubits for required Gaussian state.
 
     Returns:
     --------
-    statevector : np.typing.ArrayLike
+    `statevector` : `np.typing.ArrayLike` - 
         Corresponding state vector to Gaussian state.
     """
     mu, sigma = (2**num_qubits) / 2, (2**num_qubits) / 4
@@ -92,12 +92,12 @@ def generate_random_state(num_qubits):
 
     Parameters:
     -----------
-    num_qubits : int
+    `num_qubits` : `int` - 
         Qubits for required Gaussian state.
 
     Returns:
     --------
-    statevector : np.typing.ArrayLike
+    `statevector` : `np.typing.ArrayLike` - 
         Corresponding random state vector.
     """
     return random_statevector(2**num_qubits).data
